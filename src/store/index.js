@@ -17,13 +17,15 @@ export default new Vuex.Store({
       'community',
     ],
     events: [],
+    total: 0,
   },
   mutations: {
     ADD_EVENT(state, event) {
       state.events.push(event);
     },
-    SET_EVENTS(state, events) {
+    SET_EVENTS(state, { total, events }) {
       state.events = events;
+      state.total = total;
     },
   },
   actions: {
@@ -32,10 +34,11 @@ export default new Vuex.Store({
         commit('ADD_EVENT', event);
       });
     },
-    fetchEvents({ commit }) {
-      EventService.getEvents()
+    fetchEvents({ commit }, { perPage, page }) {
+      EventService.getEvents(perPage, page)
         .then((response) => {
-          commit('SET_EVENTS', response.data);
+          const total = parseInt(response.headers['x-total-count']);
+          commit('SET_EVENTS', { total, events: response.data });
         })
         .catch((error) => {
           console.log('There was en error: ' + error);
