@@ -9,7 +9,7 @@
         >Prev Page</router-link
       >
     </template>
-    <template v-if="3 * page < this.$store.state.total">
+    <template v-if="3 * page < this.$store.state.event.total">
       <router-link
         :to="{ name: 'event-list', query: { page: page + 1 } }"
         rel="prev"
@@ -28,7 +28,7 @@ export default {
     EventCard,
   },
   created() {
-    this.$store.dispatch('fetchEvents', { perPage: 3, page: this.page });
+    this.$store.dispatch('event/fetchEvents', { perPage: 3, page: this.page });
   },
   computed: {
     page() {
