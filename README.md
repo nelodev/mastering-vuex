@@ -1,1 +1,1 @@
-# Masterint VueX
+# Mastering Vuex
